@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<%= turbo_stream_from "posts" %>
+
+<%= turbo_frame_tag :posts do %>
+  <div id="posts-list">
+    <%= render @posts %>
+  </div>
+<% end %>
+
+<%= turbo_frame_tag :pagination, loading: :lazy, src: posts_path(format: :turbo_stream, page: @pagy.next) if @pagy.next %>

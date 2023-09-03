@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Xclone</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  </head>
+
+<%= render partial: "shared/nav" %>
+<div id="notice"></div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-3">
+      <%= link_to "New post", new_post_path, class: "btn-primary btn", "data-controller": "turbo" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= yield %>
+      <%= turbo_frame_tag "remote_modal" %>
+    </div>
+
+    <div class="col-md-3">
+    </div>
+  </div>
+</div>
+</html>
