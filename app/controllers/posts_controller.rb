@@ -2,6 +2,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
 
   def index
+    @post = Post.new
     @pagy, @posts = pagy_countless(Post.with_attached_image.order(updated_at: :desc), items: 10)
   end
 
@@ -64,6 +65,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
+          reset_form,
           close_modal,
           update_notice(message)
         ]
@@ -77,5 +79,9 @@ class PostsController < ApplicationController
 
   def update_notice(alert = "alert-success", message)
     turbo_stream.update("notice", body: "<div data-controller='notice' class='alert #{alert}'>#{message}</div>")
+  end
+
+  def reset_form
+    turbo_stream.replace("new_post", partial: "form", locals: { post: Post.new })
   end
 end
