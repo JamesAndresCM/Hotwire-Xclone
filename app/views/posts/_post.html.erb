@@ -9,7 +9,7 @@
           <i class="bi bi-trash-fill" title="Delete"></i>
       <% end %>
 
-      <%= link_to post_path(post), class: "d-inline-block me-2" do %>
+      <%= link_to post_path(post), class: "d-inline-block me-2", data: { turbo_frame: "_top" } do %>
           <i class="bi bi-eye-fill" title="Show this post"></i>
       <% end %>
     </div>

@@ -1,73 +1,46 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
 
-  # GET /posts or /posts.json
   def index
     @pagy, @posts = pagy_countless(Post.with_attached_image.order(updated_at: :desc), items: 10)
-    respond_to do |format|
-      format.html
-      format.turbo_stream
-    end
   end
 
-  # GET /posts/1 or /posts/1.json
   def show; end
 
-  # GET /posts/new
   def new
     @post = Post.new
-    render partial: "modal_content"
+    render_modal
   end
 
-  # GET /posts/1/edit
   def edit
-    render partial: "modal_content"
+    render_modal
   end
 
-  # POST /posts or /posts.json
   def create
     @post = Post.new(post_params)
-    respond_to do |format|
-      if @post.save
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.action("replace", "remote_modal", body: ""),
-            turbo_stream.action("replace", "notice", body: "<div class='alert alert-success'>Post was successfully created.</div>")
-          ]
-        end
-      else
-        format.turbo_stream do
-          render partial: "modal_content"
-        end
-      end
+    if @post.save
+      handle_success("Post was successfully created.")
+    else
+      render_modal
     end
   end
 
-  # PATCH/PUT /posts/1 or /posts/1.json
   def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.action("replace", "remote_modal", body: ""),
-            turbo_stream.action("replace", "notice", body: "<div class='alert alert-success'>Post was successfully updated.</div>")
-          ]
-        end
-      else
-        format.turbo_stream do
-          render partial: "modal_content"
-        end
-      end
+    if @post.update(post_params)
+      handle_success("Post was successfully updated.")
+    else
+      render_modal
     end
   end
 
-  # DELETE /posts/1 or /posts/1.json
   def destroy
     @post.destroy
-
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.action("replace", "notice", body: "<div class='alert alert-success'>Post was successfully destroyed.</div>")
+        render turbo_stream: [
+          turbo_stream.remove("post_#{@post.id}"),
+          update_notice("alert-danger", "Post was successfully destroyed")
+        ]
       end
     end
   end
@@ -79,8 +52,30 @@ class PostsController < ApplicationController
     redirect_to root_path, notice: "Post not found" if @post.nil?
   end
 
-  # Only allow a list of trusted parameters through.
   def post_params
     params.require(:post).permit(:body, :image)
+  end
+
+  def render_modal
+    render partial: "modal_content"
+  end
+
+  def handle_success(message)
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          close_modal,
+          update_notice(message)
+        ]
+      end
+    end
+  end
+
+  def close_modal
+    turbo_stream.update("remote_modal", "<div id='remote_modal' data-controller='modal' data-modal-close-value='true'></div>")
+  end
+
+  def update_notice(alert = "alert-success", message)
+    turbo_stream.update("notice", body: "<div data-controller='notice' class='alert #{alert}'>#{message}</div>")
   end
 end

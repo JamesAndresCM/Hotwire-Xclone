@@ -13,5 +13,8 @@ application.register("image-preview", ImagePreviewController)
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
+import NoticeController from "./notice_controller"
+application.register("notice", NoticeController)
+
 import TurboController from "./turbo_controller"
 application.register("turbo", TurboController)

@@ -1,5 +1,6 @@
 <%= turbo_frame_tag :remote_modal, target: :_top do %>
-  <div class="modal fade" data-controller="modal">
+<div id="remote-modal">
+  <div class="modal fade" data-controller="modal" data-close-modal="false">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -10,5 +11,6 @@
         </div>
        </div>
       </div>
+     </div>
      </div>
  <% end %>
