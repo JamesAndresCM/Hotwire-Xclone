@@ -1,24 +1,9 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+- `bundle install`
+- `rails db:setup`
 
-Things you may want to cover:
 
-* Ruby version
+# Demo
+https://github.com/JamesAndresCM/Xclone/assets/11434942/7837210c-ff49-45e1-9c7a-bf0a415c7b7e
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
