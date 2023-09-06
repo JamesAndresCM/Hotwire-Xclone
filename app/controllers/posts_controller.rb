@@ -3,7 +3,7 @@ class PostsController < ApplicationController
 
   def index
     @post = Post.new
-    @pagy, @posts = pagy_countless(Post.with_attached_image.order(updated_at: :desc), items: 10)
+    @pagy, @posts = pagy_countless(Post.with_attached_image.includes(user: :avatar_attachment).order(updated_at: :desc), items: 10)
   end
 
   def show; end
@@ -18,7 +18,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.new(post_params)
     if @post.save
       handle_success("Post was successfully created.")
     else

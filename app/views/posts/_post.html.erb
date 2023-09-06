@@ -1,26 +1,32 @@
 <div class="card mb-3" id="<%= dom_id post %>">
   <div class="card-body">
-    <div class="card-title text-end">
-      <%= link_to edit_post_path(post), "data-controller": "turbo", class: "d-inline-block me-2" do %>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="d-flex align-items-center">
+        <% if post.user.present? %>
+          <%= image_tag(post.user_avatar_thumbnail, style: "width: 10% !important", class: "img-fluid rounded-circle border border-white me-2") %>
+        <% end %>
+        <span class="username-span" style="color: black;"><%= post.user_full_name %></span>
+      </div>
+      <div class="d-flex align-items-center">
+        <%= link_to edit_post_path(post), "data-controller": "turbo", class: "d-inline-block me-2" do %>
           <i class="bi bi-pencil-fill" title="Edit this post"></i>
-      <% end %>
+        <% end %>
 
-      <%= button_to post, method: :delete, class: "btn btn-danger d-inline-block me-2", form: { data: { turbo_confirm: "Are you sure?" }, class: "d-inline-block" } do %>
+        <%= button_to post, method: :delete, class: "btn btn-danger d-inline-block me-2", form: { data: { turbo_confirm: "Are you sure?" }, class: "d-inline-block" } do %>
           <i class="bi bi-trash-fill" title="Delete"></i>
-      <% end %>
+        <% end %>
 
-      <%= link_to post_path(post), class: "d-inline-block me-2", data: { turbo_frame: "_top" } do %>
+        <%= link_to post_path(post), class: "d-inline-block me-2", data: { turbo_frame: "_top" } do %>
           <i class="bi bi-eye-fill" title="Show this post"></i>
-      <% end %>
+        <% end %>
+      </div>
     </div>
+    <p><%= time_ago_in_words(post.created_at) %> ago</p>
     <p class="card-text">
       <%= post.body %>
     </p>
-     <% if post.image.attached? %>
-        <%= image_tag url_for(post.image), class: "img-fluid w-100" %>
-      <% end %>
-    <div>
-    </div>
+    <% if post.image.attached? %>
+      <%= image_tag url_for(post.image), class: "img-fluid w-100" %>
+    <% end %>
   </div>
 </div>
-

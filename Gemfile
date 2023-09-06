@@ -69,3 +69,7 @@ end
 
 
 gem "pagy", "~> 6.0"
+
+gem "devise", "~> 4.9"
+
+gem "pry-byebug", "~> 3.10"
