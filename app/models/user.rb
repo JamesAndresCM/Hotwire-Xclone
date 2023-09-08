@@ -5,6 +5,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :posts
+  has_many :likes
   has_one_attached :avatar
   validates :username, uniqueness: true, length:  {in: 3..50},
                        format: { with: /\A[a-zA-ZnÑáéíóúÁÉÍÓÚ0-9_ ]+\z/, message: "username not valid format" }, if: -> { username.present? }
@@ -24,4 +25,7 @@ class User < ApplicationRecord
       "default.png"
     end
   end
+
+  def liked?(likeable) = likes.where(likeable: likeable).exists?
+  def like_for(likeable) = likes.find_by(likeable: likeable)
 end
