@@ -1,0 +1,11 @@
+<div id="likeable_button_<%= likeable.class.name.downcase %>_<%= likeable.id %>">
+  <% if Current.user && !Current.user.liked?(likeable) %>
+    <%= link_to [likeable, Like.new], method: :post, class: 'btn btn-link d-inline', data: {turbo_method: "post"} do %>
+      <i class="bi bi-heart" aria-hidden="true"></i>
+    <% end %>
+  <% elsif Current.user %>
+    <%= link_to [likeable, Current.user.like_for(likeable)], class: 'btn btn-link d-inline', data: {turbo_method: "delete"} do %>
+      <i class="bi bi-heart" aria-hidden="true" style="color: red;"></i>
+    <% end %>
+  <% end %>
+</div>
