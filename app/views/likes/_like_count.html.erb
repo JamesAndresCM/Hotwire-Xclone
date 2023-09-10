@@ -1,4 +1,4 @@
 <%= turbo_stream_from "broadcast_for_likeable_#{likeable.class.name.downcase}_#{likeable.id}" %>
 <div id="likeable_count_<%= likeable.class.name.downcase %>_<%= likeable.id %>">
-  <%= likeable.likes.count %>
+  <%= count_post_likes&.fetch(likeable.id, 0) %>
 </div>

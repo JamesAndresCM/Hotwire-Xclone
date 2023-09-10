@@ -31,6 +31,7 @@
   </div>
   <div class="d-flex justify-content-end mb-2" style="margin-right: 30px">
     <%= render partial: "likes/like_button", locals: { likeable: post } %>
-    <%= render 'likes/like_count', likeable: post %>
+   <%= render 'likes/like_count', likeable: post, count_post_likes: (local_assigns[:count_post_likes] || @count_post_likes) %>
+
   </div>
 </div>
