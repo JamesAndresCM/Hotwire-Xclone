@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
+  before_action :count_post_likes
 
   def index
     @post = Post.new
@@ -83,5 +84,9 @@ class PostsController < ApplicationController
 
   def reset_form
     turbo_stream.replace("new_post", partial: "form", locals: { post: Post.new })
+  end
+
+  def count_post_likes
+    @count_post_likes ||= Like.count_like_type(type: "Post")
   end
 end
