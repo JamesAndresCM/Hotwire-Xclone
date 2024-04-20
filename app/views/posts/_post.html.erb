@@ -8,15 +8,12 @@
         <span class="username-span" style="color: black;"><%= post.user_full_name %></span>
       </div>
       <div class="d-flex align-items-center">
-        <%= link_to edit_post_path(post), "data-controller": "turbo", class: "d-inline-block me-2" do %>
-          <i class="bi bi-pencil-fill" title="Edit this post"></i>
-        <% end %>
-
-        <%= button_to post, method: :delete, class: "btn btn-danger d-inline-block me-2", form: { data: { turbo_confirm: "Are you sure?" }, class: "d-inline-block" } do %>
-          <i class="bi bi-trash-fill" title="Delete"></i>
-        <% end %>
-
-        <%= link_to post_path(post), class: "d-inline-block me-2", data: { turbo_frame: "_top" } do %>
+        <div id="post_action" data-user-id="<%=post.user.id%>">
+          <% if Current.user == post.user %>
+            <%= render partial: "posts/actions", locals: { post: post } %>
+          <% end %>
+        </div>
+        <%= link_to post_path(post), class: "d-inline-block me-2 mb-3", data: { turbo_frame: "_top" } do %>
           <i class="bi bi-eye-fill" title="Show this post"></i>
         <% end %>
       </div>

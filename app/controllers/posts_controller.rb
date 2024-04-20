@@ -15,10 +15,12 @@ class PostsController < ApplicationController
   end
 
   def edit
-    render_modal
+    render_modal if @post.user == current_user
   end
 
   def create
+    check_authorized_action
+
     @post = current_user.posts.new(post_params)
     if @post.save
       handle_success("Post was successfully created.")
@@ -28,6 +30,8 @@ class PostsController < ApplicationController
   end
 
   def update
+    check_authorized_action
+
     if @post.update(post_params)
       handle_success("Post was successfully updated.")
     else
@@ -36,6 +40,8 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    check_authorized_action
+
     @post.destroy
     respond_to do |format|
       format.turbo_stream do
@@ -88,5 +94,9 @@ class PostsController < ApplicationController
 
   def count_post_likes
     @count_post_likes ||= Like.count_like_type(type: "Post")
+  end
+
+  def check_authorized_action
+    redirect_to root_path, alert: "not authorized" if @post.user != current_user
   end
 end
