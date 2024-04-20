@@ -13,7 +13,7 @@
   #post_action {
     display: none;
   }
-  #post_action[data-user-id="<%= current_user.id %>"] {
+  #post_action[data-user-id="<%= current_user&.id %>"] {
     display: flex;
   }
 </style>

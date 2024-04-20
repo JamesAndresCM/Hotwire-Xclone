@@ -19,8 +19,6 @@ class PostsController < ApplicationController
   end
 
   def create
-    check_authorized_action
-
     @post = current_user.posts.new(post_params)
     if @post.save
       handle_success("Post was successfully created.")
