@@ -20,6 +20,8 @@ class Like < ApplicationRecord
   end
 
   def broadcast_like
+    return if Like.find_by_id(id).nil?
+
     Turbo::StreamsChannel.broadcast_replace_to(
       user_stream_name,
       target: "likeable_button_#{likeable.class.name.downcase}_#{likeable.id}",
