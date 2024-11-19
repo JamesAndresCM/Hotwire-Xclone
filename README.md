@@ -1,5 +1,6 @@
 # README
 
+- Require ruby with `yjit` and `jemalloc`, example with rbenv: `RUBY_CONFIGURE_OPTS="--enable-yjit --with-jemalloc" rbenv install 3.2.0`
 - `bundle install`
 - `rails db:setup`
 
